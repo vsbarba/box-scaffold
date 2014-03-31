@@ -1,91 +1,106 @@
 /*global module:false*/
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   /** 
    * Load required Grunt tasks. These are installed based on the versions listed
    * in `package.json` when you do `npm install` in this directory.
    */
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  // grunt.loadNpmTasks('grunt-contrib-copy');
+  // grunt.loadNpmTasks('grunt-contrib-uglify');
   // grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-recess');
+  // grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Project configuration.
   grunt.initConfig({
-    // Metadata.
+
+    /**
+     * We read in our `package.json` file so we can access the package name and
+     * version. It's already there, so we don't repeat ourselves here.
+     */
+    pkg: grunt.file.readJSON("package.json"),
+
+    // Configuration Directory
+    
+
+    // Metadata
+    // =====================================
     meta: {
       version: '0.1.0'
     },
-    banner: '/*! PROJECT_NAME - v<%= meta.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '* http://PROJECT_WEBSITE/\n' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> ' +
-      'YOUR_NAME; Licensed MIT */\n',
-    // Task configuration.
-    concat: {
-      options: {
-        banner: '<%= banner %>',
-        stripBanners: true
-      },
-      dist: {
-        src: ['lib/FILE_NAME.js'],
-        dest: 'dist/FILE_NAME.js'
+
+    // Banner to be included on files
+    // =====================================
+    banner: '/*! PROJECT_NAME - v<%= meta.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %>\n' + '* http://PROJECT_WEBSITE/\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> ' + 'YOUR_NAME; Licensed MIT */\n',
+
+    /**
+     * The directories to delete when `grunt clean` is executed.
+     */
+    clean: [
+      '<%= build_dir %>',
+      '<%= compile_dir %>'
+    ],
+
+    // Watch Less stylesheets
+    // =====================================
+    watch: {
+      less: {
+        files: ['_source/less/**/*.less'],
+        tasks: ['less:development']
       }
     },
-    uglify: {
-      options: {
-        banner: '<%= banner %>'
-      },
-      dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/FILE_NAME.min.js'
+
+    // Compile Less stylesheets
+    // =====================================
+    less: {
+      development: {
+        options: {
+          strictMath: true,
+          sourceMap: false
+        },
+        files: {
+          "application/assets/css/bootstrap.css": "_source/less/bootstrap/bootstrap.less",
+          "application/assets/css/<%= pkg.name %>-<%= pkg.version %>.css": "_source/less/main.less"
+        }
       }
     },
+
+    // JSHINT
+    // =====================================
     jshint: {
+      src: [
+        'application/assets/js/*.js',
+        // Angular stuff
+        'application/app/*.js',
+        'application/app/**/*.js',
+      ],
+      gruntfile: [
+        'Gruntfile.js'
+      ],
       options: {
         curly: true,
-        eqeqeq: true,
         immed: true,
-        latedef: true,
         newcap: true,
         noarg: true,
         sub: true,
-        undef: true,
-        unused: true,
         boss: true,
-        eqnull: true,
-        browser: true,
-        globals: {
-          jQuery: true
-        }
+        eqnull: true
       },
-      gruntfile: {
-        src: 'Gruntfile.js'
-      },
-      lib_test: {
-        src: ['lib/**/*.js', 'test/**/*.js']
-      }
-    },
-    qunit: {
-      files: ['test/**/*.html']
-    },
-    watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
-      },
-      lib_test: {
-        files: '<%= jshint.lib_test.src %>',
-        tasks: ['jshint:lib_test', 'qunit']
-      }
+      globals: {}
     }
+
   });
 
+
+  // Watch CSS Development
+  grunt.registerTask('watchless', ['watch']);
+
   // Default task.
-  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+  // grunt.registerTask('default', ['jshint', 'concat']);
 
 };

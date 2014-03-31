@@ -7,7 +7,7 @@ var App = angular.module( 'boxScaffold', [
 App.config( function myAppConfig ( $locationProvider, $stateProvider, $urlRouterProvider ) {
 
 	// /#/ to remove hashtag
-  $locationProvider.html5Mode(true)
+  $locationProvider.html5Mode(true);
 
   // Default URL Redirect
   $urlRouterProvider.otherwise( '/404' );
