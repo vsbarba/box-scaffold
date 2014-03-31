@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="boxScaffold">
 <head>
 
   <meta charset="utf-8">
 
-  <title>PageBuildr</title>
+  <title ng-bind="pageTitle"></title>
 
   <meta name="author" content="">
   <meta name="description" content="">
@@ -27,7 +27,7 @@
 </head>
 <body>
 
-  <ng-view></ng-view>
+  <div ui-view></div>
 
   <!-- jQuery stuff goes here -->
   <script src="/assets/js/lib/jquery.js"></script>
@@ -36,12 +36,15 @@
   <!-- Angular stuff goes here -->
   <script src="/assets/js/lib/angular.js"></script>
   <script src="/assets/js/lib/angular-route.min.js"></script>
+  <script src="/assets/js/lib/angular-ui-router.min.js"></script>
+  <script src="/assets/js/lib/ui-utils.min.js"></script>
 
-  <!-- Angular Core -->
-  <script src="/assets/js/app/app.js"></script>
+  <!-- Angular Core / Angular App Specifics -->
+  <script src="/app/app.js"></script>
 
-  <!-- Angular App Specifics -->
-  <script src="/assets/js/app/dashboard/controller.js"></script>
+  <!-- Dashboard -->
+  <script src="/app/dashboard/controller.js"></script>
+  <script src="/app/dashboard/directive.js"></script>
   
 </body>
 </html>
