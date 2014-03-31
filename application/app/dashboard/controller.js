@@ -11,7 +11,7 @@ dashboard.config(function config($stateProvider) {
       controller: 'DashboardCtrl',
       templateUrl: '/app/dashboard/dashboard.html',
       data: {
-        pageTitle: 'What is It?'
+        pageTitle: 'Dashboard'
       }
     });
 });

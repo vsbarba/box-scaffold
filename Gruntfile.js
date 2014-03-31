@@ -9,12 +9,15 @@ module.exports = function (grunt) {
   // grunt.loadNpmTasks('grunt-contrib-copy');
   // grunt.loadNpmTasks('grunt-contrib-uglify');
   // grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-watch');
   // grunt.loadNpmTasks('grunt-recess');
+  
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  // Versioning Stuff
+  grunt.loadNpmTasks('grunt-conventional-changelog');
 
   // Project configuration.
   grunt.initConfig({
@@ -26,7 +29,7 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON("package.json"),
 
     // Configuration Directory
-    
+
 
     // Metadata
     // =====================================
@@ -37,6 +40,16 @@ module.exports = function (grunt) {
     // Banner to be included on files
     // =====================================
     banner: '/*! PROJECT_NAME - v<%= meta.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %>\n' + '* http://PROJECT_WEBSITE/\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> ' + 'YOUR_NAME; Licensed MIT */\n',
+
+    /**
+     * Creates a changelog on a new version.
+     */
+    changelog: {
+      options: {
+        dest: 'CHANGELOG.md',
+        template: 'changelog.tpl'
+      }
+    },
 
     /**
      * The directories to delete when `grunt clean` is executed.

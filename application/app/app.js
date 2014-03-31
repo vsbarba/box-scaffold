@@ -19,7 +19,7 @@ App.config( function myAppConfig ( $locationProvider, $stateProvider, $urlRouter
       controller: 'DashboardCtrl',
       templateUrl: '/app/dashboard/dashboard.html',
       data: {
-        pageTitle: 'What is It?'
+        pageTitle: 'Dashboard'
       }
     });
 });
@@ -27,10 +27,10 @@ App.config( function myAppConfig ( $locationProvider, $stateProvider, $urlRouter
 App.run( function run () {
 });
 
-App.controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+App.controller( 'BoxScaffoldCtrl', function AppCtrl ( $scope, $location ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
+      $scope.pageTitle = toState.data.pageTitle + ' | Box Scaffold' ;
     }
   });
 });
